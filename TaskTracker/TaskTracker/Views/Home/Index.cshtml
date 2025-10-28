@@ -1,0 +1,137 @@
+﻿<!--
+    FILE          : Index.cshtml
+    PROJECT       : Task Tracker Application
+    PROGRAMMER(S) : Mehakpreet Singh, Elijah Atta-Konadu, Navjot Singh Bhullar, Chase McCash
+    FIRST VERSION : 2025
+	DESCRIPTION   : Razor view for displaying and managing tasks in the Task Tracker application.
+-->
+
+@model List<TaskTracker.Models.TaskItem>
+
+@{
+    // Set the page title for browser tab and layout
+    ViewData["Title"] = "Task Tracker";
+}
+
+<!-- Main container for the page content -->
+<div class="container">
+    <!-- Page heading -->
+    <h1>Task Tracker</h1>
+
+    <!-- Action bar with search and create functionality -->
+    <div class="row mb-4">
+        <!-- Search section - left side -->
+        <div class="col-md-6">
+            <form asp-action="Search" method="get" class="d-flex">
+                <!-- Search input field -->
+                <input type="text" name="searchTerm" class="form-control me-2" placeholder="Search..." required>
+
+                <!-- Search type dropdown -->
+                <select name="searchType" class="form-select me-2" style="width: auto;">
+                    <option value="id">By ID</option>
+                    <option value="assignee">By Assignee</option>
+                </select>
+
+                <!-- Search submit button -->
+                <button type="submit" class="btn btn-outline-primary">Search</button>
+            </form>
+        </div>
+
+        <!-- Create button section - right side -->
+        <div class="col-md-6 text-end">
+            <a href="@Url.Action("Create")" class="btn btn-primary">Create New Task</a>
+        </div>
+    </div>
+
+    <!-- Tasks table container with responsive design -->
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <!-- Table header with column definitions -->
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Assignee</th>
+                    <th>Priority</th>
+                    <th>Created Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <!-- Table body with task data -->
+            <tbody>
+                <!--Loop through each task in thelist-->
+                @foreach (var task in Model)
+                {
+                    <tr>
+                        <!-- Task ID column -->
+                        <td>@task.Id</td>
+
+                        <!-- Task title column -->
+                        <td>@task.Title</td>
+
+                        <!-- Assignee column with null check -->
+                        <td>@(string.IsNullOrEmpty(task.Assignee) ? "Unassigned" : task.Assignee)</td>
+
+                        <!-- Priority column with colored badge -->
+                        <td>
+                            <span class="badge @GetPriorityBadgeClass(task.Priority)">
+                                @task.Priority
+                            </span>
+                        </td>
+
+                        <!-- Created date with formatted display -->
+                        <td>@task.CreatedDate.ToString("MMM dd, yyyy")</td>
+
+                        <!-- Action buttons column -->
+                        <td>
+                            <!-- View details button - navigates to Details page -->
+                            <a href="@Url.Action("Details", new { id = task.Id })" class="btn btn-sm btn-info">View</a>
+
+                            <!-- Edit task button - navigates to Edit page -->
+                            <a href="@Url.Action("Edit", new { id = task.Id })" class="btn btn-sm btn-warning">Edit</a>
+                            <form asp-action="Delete" method="post" style="display: inline;">
+                                <!-- Hidden field to pass the task ID for deletion -->
+                                <input type="hidden" name="id" value="@task.Id" />
+                                <button type="submit" class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Are you sure you want to delete this task?')">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!--
+     C# helper methods for this view
+-->
+@functions {
+    /// <summary>
+    /// Determines the appropriate CSS class for priority badges based on priority level
+    /// </summary>
+    /// <param name="priority">The priority level of the task</param>
+    /// <returns>Bootstrap badge class string for styling</returns>
+    string GetPriorityBadgeClass(TaskTracker.Models.Priority priority)
+    {
+        // Switch expression to map priority levels to color classes
+        return priority switch
+        {
+            TaskTracker.Models.Priority.None => "bg-secondary",    // Gray - no priority set
+            TaskTracker.Models.Priority.Low => "bg-success",       // Green - low priority
+            TaskTracker.Models.Priority.Medium => "bg-warning",    // Yellow - medium priority
+            TaskTracker.Models.Priority.High => "bg-orange",       // Orange - high priority (custom color)
+            TaskTracker.Models.Priority.Critical => "bg-danger",   // Red - critical priority
+            _ => "bg-secondary"                                    // Default fallback
+        };
+    }
+}
+<style>
+    .bg-orange 
+    {
+        background-color: orange !important;
+    }
+</style>

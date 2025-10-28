@@ -1,0 +1,102 @@
+﻿<!--
+    FILE          : Edit.cshtml
+    PROJECT       : Task Tracker Application
+    PROGRAMMER(S) : Mehakpreet Singh, Elijah Atta-Konadu, Navjot Singh Bhullar, Chase McCash
+    FIRST VERSION : 2025
+	DESCRIPTION   : Razor view for editing an existing task in the Task Tracker application.
+-->
+
+<!-- Specify the model type that this view expects - a TaskItem from the TaskTracker models -->
+@model TaskTracker.Models.TaskItem
+
+@{
+    // Set the page title that will be displayed in the browser tab and layout
+    ViewData["Title"] = "Edit Task";
+}
+
+<!-- Main container for the page content with Bootstrap styling -->
+<div class="container">
+    <!-- Page heading -->
+    <h1>Edit Task</h1>
+
+    <!-- Form layout using Bootstrap grid system -->
+    <div class="row">
+        <!-- Center the form in a 6-column width on medium screens and up -->
+        <div class="col-md-6">
+            <!-- 
+                Form for editing task details
+                - asp-action="Edit": Posts to the Edit action method in the controller
+                - method="post": Uses HTTP POST method for form submission
+            -->
+            <form asp-action="Edit" method="post">
+                <!-- 
+                    Hidden field for Task ID
+                    - Ensures the ID is preserved when the form is submitted
+                    - Required for the controller to identify which task to update
+                -->
+                <input type="hidden" asp-for="Id" />
+
+                <!-- Title input field -->
+                <div class="mb-3">
+                    <!-- Label for the title field with asterisk indicating required field -->
+                    <label asp-for="Title" class="form-label">Title *</label>
+                    <!-- 
+                        Input field bound to the Title property
+                        - required attribute: HTML5 validation to ensure field is not empty
+                        - asp-for: Razor tag helper for model binding
+                    -->
+                    <input asp-for="Title" class="form-control" required>
+                    <!-- 
+                        Validation message span
+                        - Displays server-side validation errors for the Title field
+                        - Only shows when there are validation errors
+                    -->
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <!-- Description textarea field -->
+                <div class="mb-3">
+                    <!-- Label for the description field -->
+                    <label asp-for="Description" class="form-label">Description</label>
+                    <!-- 
+                        Textarea for task description
+                        - rows="4": Sets the initial visible height of the textarea
+                        - Optional field (no required attribute)
+                    -->
+                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                    <!-- Note: No validation span as description is optional -->
+                </div>
+
+                <!-- Completion status checkbox -->
+                <div class="mb-3">
+                    <!-- 
+                        Checkbox for marking task as completed
+                        - Wrapped in label for better accessibility and clickable area
+                    -->
+                    <label asp-for="IsCompleted" class="form-check-label">
+                        <!-- Checkbox input bound to IsCompleted property -->
+                        <input asp-for="IsCompleted" class="form-check-input" />
+                        <!-- Display text for the checkbox -->
+                        Completed
+                    </label>
+                </div>
+
+                <!-- Form action buttons -->
+                <div class="button-group">
+                    <!-- 
+                        Submit button - triggers form submission
+                        - btn-primary: Primary action styling in Bootstrap
+                    -->
+                    <button type="submit" class="btn btn-primary">Update Task</button>
+                    
+                    <!-- 
+                        Cancel button - returns to task list without saving changes
+                        - btn-secondary: Secondary action styling
+                        - Uses Url.Action to generate the URL for the Index action
+                    -->
+                    <a href="@Url.Action("Index")" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

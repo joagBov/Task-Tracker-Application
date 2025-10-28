@@ -1,0 +1,168 @@
+﻿<!--
+    FILE          : TaskDetails.cshtml
+    PROJECT       : Task Tracker Application
+    PROGRAMMER(S) : Mehakpreet Singh, Elijah Atta-Konadu, Navjot Singh Bhullar, Chase McCash
+    FIRST VERSION : 2025
+	DESCRIPTION   : Razor view for displaying detailed information about a specific task in the Task Tracker application.
+-->
+<!-- Define the model type for this Razor view -->
+@model TaskTracker.Models.TaskItem
+
+@{
+    // Set the page title that will be displayed in the browser tab
+    ViewData["Title"] = "Task Details";
+}
+
+<!-- Main container for the page content -->
+<div class="container">
+    <h1>Task Details</h1>
+    <!-- Card component to display the main task information -->
+    <div class="card">
+        <div class="card-header">
+            <!-- Display the task title as the card header -->
+            <h5 class="card-title">@Model.Title</h5>
+        </div>
+        <div class="card-body">
+            <!-- Definition list for structured display of task properties -->
+            <dl class="row">
+                <!-- Task ID -->
+                <dt class="col-sm-3">ID:</dt>
+                <dd class="col-sm-9">@Model.Id</dd>
+
+                <!-- Task Description -->
+                <dt class="col-sm-3">Description:</dt>
+                <dd class="col-sm-9">@Model.Description</dd>
+
+                <!-- Task Assignee with null check -->
+                <dt class="col-sm-3">Assignee:</dt>
+                <dd class="col-sm-9">@(string.IsNullOrEmpty(Model.Assignee) ? "Unassigned" : Model.Assignee)</dd>
+
+                <!-- Task Priority with dynamic badge styling -->
+                <dt class="col-sm-3">Priority:</dt>
+                <dd class="col-sm-9">
+                    <!-- Apply different badge classes based on priority level -->
+                    <span class="badge @GetPriorityBadgeClass(Model.Priority)">
+                        @Model.Priority
+                    </span>
+                </dd>
+
+                <!-- Task creation date with formatted display -->
+                <dt class="col-sm-3">Created Date:</dt>
+                <dd class="col-sm-9">@Model.CreatedDate.ToString("MMM dd, yyyy HH:mm")</dd>
+
+                <!-- Last update date with null check -->
+                <dt class="col-sm-3">Last Updated:</dt>
+                <dd class="col-sm-9">@(Model.UpdatedDate?.ToString("MMM dd, yyyy HH:mm") ?? "Never")</dd>
+
+                <!-- Completion status -->
+                <dt class="col-sm-3">Completed:</dt>
+                <dd class="col-sm-9">@(Model.IsCompleted ? "Yes" : "No")</dd>
+            </dl>
+        </div>
+    </div>
+
+    <!-- Action section with three columns for different task operations -->
+    <div class="row mt-4">
+        <!-- First column: Assign Task functionality -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6>Assign Task</h6>
+                </div>
+                <div class="card-body">
+                    <!-- Form to assign the task to a user -->
+                    <form asp-action="Assign" method="post">
+                        <!-- Hidden field to pass the task ID -->
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <div class="mb-3">
+                            <!-- Input field for assignee name -->
+                            <input type="text" name="assignee" class="form-control" placeholder="Assignee name" required>
+                        </div>
+                        <!-- Submit button for assignment -->
+                        <button type="submit" class="btn btn-primary btn-sm">Assign</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second column: Set Priority functionality -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6>Set Priority</h6>
+                </div>
+                <div class="card-body">
+                    <!-- Form to set task priority -->
+                    <form asp-action="SetPriority" method="post">
+                        <!-- Hidden field to pass the task ID -->
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <div class="mb-3">
+                            <!-- Dropdown for priority selection -->
+                            <select name="priority" class="form-select">
+                                <option value="None">None</option>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                                <option value="Critical">Critical</option>
+                            </select>
+                        </div>
+                        <!-- Submit button for priority setting -->
+                        <button type="submit" class="btn btn-warning btn-sm">Set Priority</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Third column: Quick Actions -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6>Quick Actions</h6>
+                </div>
+                <div class="card-body">
+                    <!-- Form to remove assignee -->
+                    <form asp-action="RemoveAssignee" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button type="submit" class="btn btn-outline-secondary btn-sm mb-2">Remove Assignee</button>
+                    </form>
+
+                    <!-- Form to remove priority -->
+                    <form asp-action="RemovePriority" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button type="submit" class="btn btn-outline-secondary btn-sm mb-2">Remove Priority</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation buttons section -->
+    <div class="mt-4">
+        <!-- Button to return to the task list -->
+        <a href="@Url.Action("Index")" class="btn btn-secondary">Back to List</a>
+        <!-- Button to edit the current task -->
+        <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-warning">Edit Task</a>
+    </div>
+</div>
+
+<!-- Razor functions block for C# helper methods -->
+@functions {
+    /// <summary>
+    /// Returns the appropriate CSS class for priority badges based on priority level
+    /// </summary>
+    /// <param name="priority">The priority level of the task</param>
+    /// <returns>CSS class string for styling the priority badge</returns>
+    string GetPriorityBadgeClass(TaskTracker.Models.Priority priority)
+    {
+        // Switch expression to map priority levels to Bootstrap badge classes
+        return priority switch
+        {
+            TaskTracker.Models.Priority.None => "bg-secondary",    // Gray for no priority
+            TaskTracker.Models.Priority.Low => "bg-success",       // Green for low priority
+            TaskTracker.Models.Priority.Medium => "bg-warning",    // Yellow for medium priority
+            TaskTracker.Models.Priority.High => "bg-orange",       // Orange for high priority
+            TaskTracker.Models.Priority.Critical => "bg-danger",   // Red for critical priority
+            _ => "bg-secondary"                                    // Default fallback
+        };
+    }
+}
