@@ -1,7 +1,20 @@
+/*
+ * FILE          : Program.cs
+ * PROJECT       : Task Tracker Application
+ * PROGRAMMER    : Mehakpreet Singh, Elijah Atta-Konadu, Navjot Singh Bhullar 
+ * FIRST VERSION : 2025
+ * DESCRIPTION   : Main entry point for the Task Tracker application.
+ */
+using TaskTracker.Services;
+using TaskTracker.Repositories;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<TaskService>();
 
 var app = builder.Build();
 

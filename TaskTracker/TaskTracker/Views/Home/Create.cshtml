@@ -1,33 +1,66 @@
 ﻿<!--
-        FILE          : Create.cshtml
-        PROJECT       : Task Tracker Application
-        PROGRAMMER(S) : Mehakpreet Singh, Elijah Atta-Konadu, Navjot Singh Bhullar, Chase McCash
-        FIRST VERSION : 2025
-        DESCRIPTION   : Razor view for creating a new task in the Task Tracker application.
+    FILE          : Create.cshtml
+    PROJECT       : Task Tracker Application
+    PROGRAMMER(S) : Mehakpreet Singh, Elijah Atta-Konadu, Navjot Singh Bhullar
+    FIRST VERSION : 2025
+    DESCRIPTION   : Razor view for creating new tasks with form validation and user-friendly interface.
 -->
 @{
-    ViewData["Title"] = "Create Task";
+    ViewData["Title"] = "Create New Task";
 }
-<div class="container">
-    <h1>Create New Task</h1>
-    <div class="row">
-        <div class="col-md-6">
-            <form asp-action="Create" method="post">
-                <div class="mb-3">
-                    <label for="title" class="form-label">Title *</label>
-                    <input type="text" class="form-control" id="title" name="title" required>
-                    @if (ViewData.ModelState["Title"]?.Errors.Count > 0)
-                    {
-                        <div class="text-danger">@ViewData.ModelState["Title"]?.Errors[0]?.ErrorMessage</div>
-                    }
-                </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" name="description" rows="4"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Create Task</button>
-                <a href="@Url.Action("Index")" class="btn btn-secondary">Cancel</a>
-            </form>
+
+<!-- Main Create Form Container -->
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <!-- Create Task Card -->
+        <div class="card">
+            <!-- Card Header with Primary Styling -->
+            <div class="card-header bg-primary text-white">
+                <h2 class="card-title mb-0">Create New Task</h2>
+            </div>
+
+            <!-- Card Body containing the creation form -->
+            <div class="card-body">
+                <!-- Create Task Form - Submits to Create action -->
+                <form asp-action="Create" method="post">
+                    <!-- Task Title Input Field -->
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Task Title *</label>
+                        <!-- Required title input with placeholder -->
+                        <input type="text" class="form-control" id="title" name="title"
+                               placeholder="Enter task title..." required>
+
+                        <!-- Server-side validation error display for title -->
+                        @if (ViewData.ModelState["Title"]?.Errors.Count > 0)
+                        {
+                            <div class="text-danger small mt-1">
+                                @ViewData.ModelState["Title"]?.Errors[0]?.ErrorMessage
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Task Description Textarea -->
+                    <div class="mb-4">
+                        <label for="description" class="form-label">Description</label>
+                        <!-- Optional description textarea with placeholder -->
+                        <textarea class="form-control" id="description" name="description"
+                                  rows="5" placeholder="Enter task description..."></textarea>
+                        <!-- Note: Description field is optional, no validation required -->
+                    </div>
+
+                    <!-- Form Action Buttons -->
+                    <div class="d-flex gap-2">
+                        <!-- Submit Button to Create New Task -->
+                        <button type="submit" class="btn btn-primary">
+                             Create Task
+                        </button>
+                        <!-- Cancel Button to Return to Dashboard -->
+                        <a href="@Url.Action("Index")" class="btn btn-secondary">
+                            ← Back to List
+                        </a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
