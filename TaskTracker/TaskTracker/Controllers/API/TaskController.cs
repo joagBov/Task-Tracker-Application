@@ -1,7 +1,7 @@
 ﻿/*
  * FILE          : TaskController.cs
  * PROJECT       : Task Tracker Application
- * PROGRAMMER    : Mehakpreet Singh, Elijah Atta-Konadu, Navjot Singh Bhullar
+ * PROGRAMMER    : Mehakpreet Singh, Elijah Atta-Konadu, Navjot Singh Bhullar, chase Maccash
  * FIRST VERSION : 2025
  * DESCRIPTION   : API Controller for managing tasks in the Task Tracker application.
  */

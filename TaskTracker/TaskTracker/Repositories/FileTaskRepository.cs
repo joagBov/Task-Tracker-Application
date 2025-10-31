@@ -1,7 +1,7 @@
 ﻿/*
  * FILE          : FileTaskRepository.cs
  * PROJECT       : Task Tracker Application
- * PROGRAMMER    : Mehakpreet Singh, Elijah Atta-Konadu, Navjot Singh Bhullar
+ * PROGRAMMER    : Mehakpreet Singh, Elijah Atta-Konadu, Navjot Singh Bhullar, Chase Maccash
  * FIRST VERSION : 2025
  * DESCRIPTION   : Repository for managing task items stored in a file.
  */

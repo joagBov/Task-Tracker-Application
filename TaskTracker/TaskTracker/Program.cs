@@ -1,7 +1,7 @@
 /*
  * FILE          : Program.cs
  * PROJECT       : Task Tracker Application
- * PROGRAMMER    : Mehakpreet Singh, Elijah Atta-Konadu, Navjot Singh Bhullar 
+ * PROGRAMMER    : Mehakpreet Singh, Elijah Atta-Konadu, Navjot Singh Bhullar, Chase Maccash
  * FIRST VERSION : 2025
  * DESCRIPTION   : Main entry point for the Task Tracker application.
  */

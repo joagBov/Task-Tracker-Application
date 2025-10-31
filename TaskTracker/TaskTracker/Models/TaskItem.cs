@@ -1,7 +1,7 @@
 ﻿/*
  * FILE          : TaskItem.cs
  * PROJECT       : Task Tracker Application
- * PROGRAMMER    : Mehakpreet Singh, Elijah Atta-Konadu, Navjot Singh Bhullar 
+ * PROGRAMMER    : Mehakpreet Singh, Elijah Atta-Konadu, Navjot Singh Bhullar , chase Maccash
  * FIRST VERSION : 2025
  * DESCRIPTION   : Model for task items in the Task Tracker application.
  */
