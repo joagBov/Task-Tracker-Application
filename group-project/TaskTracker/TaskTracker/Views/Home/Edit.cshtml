@@ -1,0 +1,72 @@
+﻿<!--
+    FILE          : Edit.cshtml
+    PROJECT       : Task Tracker Application
+    PROGRAMMER(S) : Mehakpreet Singh, Elijah Atta-Konadu, Navjot Singh Bhullar, Chase Mccash
+    FIRST VERSION : 2025
+    DESCRIPTION   : Razor view to edit an existing task, allowing users to modify
+					the title, description, and completion status.
+-->
+@model TaskTracker.Models.TaskItem
+
+@{
+    ViewData["Title"] = "Edit Task";
+}
+
+<!-- Main Edit Form Container -->
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <!-- Edit Task Card -->
+        <div class="card">
+            <!-- Card Header with Warning Styling for Edit Mode -->
+            <div class="card-header bg-warning text-white">
+                <h2 class="card-title mb-0">Edit Task #@Model.Id</h2>
+            </div>
+
+            <!-- Card Body containing the edit form -->
+            <div class="card-body">
+                <!-- Edit Task Form - Submits to Edit action -->
+                <form asp-action="Edit" method="post">
+                    <!-- Hidden field to preserve Task ID during submission -->
+                    <input type="hidden" asp-for="Id" />
+
+                    <!-- Task Title Input Field -->
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label">Task Title *</label>
+                        <input asp-for="Title" class="form-control" required>
+                        <!-- Validation message for title field -->
+                        <span asp-validation-for="Title" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Task Description Textarea -->
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label">Description</label>
+                        <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                        <!-- Note: Description is optional, no validation required -->
+                    </div>
+
+                    <!-- Completion Status Checkbox -->
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input asp-for="IsCompleted" class="form-check-input" />
+                            <label asp-for="IsCompleted" class="form-check-label">
+                                Mark as completed
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Form Action Buttons -->
+                    <div class="d-flex gap-2">
+                        <!-- Submit Button to Save Changes -->
+                        <button type="submit" class="btn btn-primary">
+                             Update Task
+                        </button>
+                        <!-- Cancel Button to Return to Task List -->
+                        <a href="@Url.Action("Index")" class="btn btn-secondary">
+                            ← Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

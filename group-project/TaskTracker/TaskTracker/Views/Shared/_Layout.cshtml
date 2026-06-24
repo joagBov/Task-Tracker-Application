@@ -1,0 +1,239 @@
+﻿<!--
+    FILE          : _Layout.cshtml
+    PROJECT       : Task Tracker Application
+	PROGRAMMER(S) : Mehakpreet Singh, Elijah Atta-Konadu, Navjot Singh Bhullar, Chase Mccash
+    FIRST VERSION : 2025
+    DESCRIPTION   : Main layout template providing consistent structure, styling,
+                    and navigation across all application views.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags for character encoding and responsive design -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Dynamic page title with application name -->
+    <title>@ViewData["Title"] - TaskTracker</title>
+
+    <!-- External CSS dependencies -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <!-- Custom inline styles for consistent application theming -->
+    <style>
+        /* Global body styling with light background and modern font */
+        body {
+            background-color: whitesmoke;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Navigation bar with dark blue colors */
+        .navbar {
+            background: linear-gradient(135deg, darkslategray, slategray) !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Brand styling in navigation */
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+
+        /* Navigation link styling with hover effects */
+        .navbar-nav .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+        }
+
+            .navbar-nav .nav-link:hover {
+                color: white !important;
+            }
+
+        /* Main content container with card-like appearance */
+        .main-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Page header styling with accent border */
+        .page-header {
+            border-bottom: 2px solid darkslategray;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+            color: darkslategray;
+        }
+
+        /* Primary button with blue gradient */
+        .btn-primary {
+            background: linear-gradient(135deg, dodgerblue, royalblue);
+            border: none;
+            border-radius: 4px;
+            color: white;
+        }
+
+        /* Warning button with orange gradient */
+        .btn-warning {
+            background: linear-gradient(135deg, orange, darkorange);
+            border: none;
+            border-radius: 4px;
+            color: white;
+        }
+
+        /* Danger button with red gradient */
+        .btn-danger {
+            background: linear-gradient(135deg, crimson, firebrick);
+            border: none;
+            border-radius: 4px;
+            color: white;
+        }
+
+        /* Success button with green gradient */
+        .btn-success {
+            background: linear-gradient(135deg, limegreen, forestgreen);
+            border: none;
+            border-radius: 4px;
+            color: white;
+        }
+
+        /* Info button with teal gradient */
+        .btn-info {
+            background: linear-gradient(135deg, teal, darkcyan);
+            border: none;
+            border-radius: 4px;
+            color: white;
+        }
+
+        /* Card component styling with hover effects */
+        .card {
+            border: none;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+            .card:hover {
+                transform: translateY(-2px);
+            }
+
+        /* Table header styling */
+        .table th {
+            background-color: darkslategray;
+            color: white;
+            border: none;
+        }
+
+        /* Badge component sizing */
+        .badge {
+            font-size: 0.8em;
+            padding: 0.4em 0.8em;
+        }
+
+        /* Form control styling for consistent inputs */
+        .form-control, .form-select {
+            border-radius: 4px;
+            border: 1px solid lightgray;
+            padding: 0.75rem;
+        }
+
+        /* Action button spacing in tables */
+        .action-buttons .btn {
+            margin: 0.2rem;
+        }
+
+        /* Custom background color overrides using named colors */
+        .bg-primary {
+            background-color: darkslategray !important;
+        }
+
+        .bg-success {
+            background-color: limegreen !important;
+        }
+
+        .bg-warning {
+            background-color: orange !important;
+        }
+
+        .bg-info {
+            background-color: teal !important;
+        }
+
+        .bg-danger {
+            background-color: crimson !important;
+        }
+
+        .bg-secondary {
+            background-color: slategray !important;
+        }
+
+        /* Custom text color overrides using named colors */
+        .text-primary {
+            color: darkslategray !important;
+        }
+
+        .text-success {
+            color: limegreen !important;
+        }
+
+        .text-warning {
+            color: orange !important;
+        }
+
+        .text-danger {
+            color: crimson !important;
+        }
+
+        /* Custom border color */
+        .border-primary {
+            border-color: darkslategray !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Application Header with Navigation -->
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark">
+            <div class="container">
+                <!-- Brand logo and application name -->
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    TaskTracker
+                </a>
+
+                <!-- Navigation menu -->
+                <div class="navbar-nav">
+                    <!-- Home/Dashboard link -->
+                    <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                    <!-- Create new task link -->
+                    <a class="nav-link" asp-controller="Home" asp-action="Create">New Task</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <div class="container">
+        <main class="main-container">
+            <!-- Dynamic content injection point for individual views -->
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- Application Footer -->
+    <footer class="mt-5 py-4 text-center text-muted">
+        <div class="container">
+            <!-- Copyright information -->
+            <small>&copy; 2025 TaskTracker - Task Management System</small>
+        </div>
+    </footer>
+
+    <!-- JavaScript dependencies -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Section for view-specific scripts -->
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
